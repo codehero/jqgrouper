@@ -1,5 +1,7 @@
 function jqgrouper(catElemName, targetElemName, assignments, unassigned){
 	var part = this;
+	part.catElemName = catElemName;
+	part.targetElemName = targetElemName;
 
 	this.curCat = null;
 	this.toggle = function(){
@@ -41,21 +43,21 @@ function jqgrouper(catElemName, targetElemName, assignments, unassigned){
 
 		var assigned = $("<ul id=\""+ i +"\" class=\""+ part.catClass +"\"></ul>");
 		for(var k = 0; k < cat.assigned.length; ++k){
-			var t = cat.assigned[k];
-			var p = $("<li><span id=\""+ t.id +"\" class=\"assign_jqgrouper\">"
-					+ t.name + "</span></li>");
-			p.dblclick(toggle);
+			var ct = cat.assigned[k];
+			var p = $("<li><span id=\""+ ct.id +"\" class=\"assign_jqgrouper\">"
+					+ ct.name + "</span></li>");
+			p.dblclick(part.toggle);
 			assigned.append(p);
 		}
 		t.append(elem).append(assigned);
 	}
 
 	t = $(targetElemName);
-	for(var p in assigned){
-		var x = assigned[p];
+	for(var p = 0; p < unassigned.length; ++p){
+		var x = unassigned[p];
 		var elem =
 			$("<li><span id=\""+ x.id +"\" class=\"assign_jqgrouper\">"+ x.name +"</span></li>");
-		elem.dblclick(toggle);
+		elem.dblclick(part.toggle);
 		t.append(elem);
 	}
 
