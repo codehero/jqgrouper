@@ -1,0 +1,57 @@
+Used for grouping a set of objects under mutually exclusive categories.
+The class populates two lists: An assignment list and a list of unassigned objects.
+For example, you could partition a set of activities into time periods, with the restriction that an activity does not take place in more than one time period.
+
+Behaviour:
+-Clicking the name of a category highlights the category. When the category is highlighted, double clicking items in the unassigned category will assign them to the highlighted category.
+-Clicking or double clicking an unassigned item when no category is highlighted has no effect.
+-Double clicking an assigned item will unassign it, regardless of which category is highlighted.
+
+
+Usage:
+-Define classes span.assign_jqgrouper and span.assign_chosen (refer to included .css file)
+-Include jqassign.js
+-Instantiate:
+
+/* Our list of current assignments.
+ * Each entry in the map is identified by the key and must map to an array
+ * of items. Categories with no assignments map to an empty array. */
+var assignments = {
+	"cat1":[
+		{
+			"id":"item1",
+			"name":"First Item"
+		},
+		{
+			"id":"item2",
+			"name":"Second Item"
+		},
+		{
+			"id":"item4",
+			"name":"Fourth Item"
+		}
+	],
+	"cat2":[
+		{
+			"id":"item5",
+			"name":"Fifth Item"
+		}
+	],
+	"cat3":[
+	]
+};
+
+/* Array of items, similar to a category mapping. */
+var unassignedItems = [
+	{
+		"id":"item3",
+		"name":"Third Item"
+	}
+];
+
+var q = new jqassign(assignments, unassignedItems, "#groups", "#items");
+...
+/* Later on, retrieve assignments as follows; the return value's signature is
+ * the same as the assignment input. */
+var assignments = q.getAssignments();
+

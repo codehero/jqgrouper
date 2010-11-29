@@ -1,0 +1,8 @@
+span.assign_jqgrouper {
+	border : solid 1px;
+	cursor : pointer;
+	text-size:large;
+}
+span.assign_chosen {
+	background-color: #6AF;
+}
