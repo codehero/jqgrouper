@@ -41,15 +41,22 @@ var assignments = {
 	]
 };
 
-/* Array of items, similar to a category mapping. */
-var unassignedItems = [
-	{
-		"id":"item3",
-		"name":"Third Item"
-	}
-];
+/* Array of all choices. */
+var allItems =
+{
+	"#items":[
+		{
+			"id":"item3",
+			"name":"Third Item"
+		},
+		{
+			"id":"item6",
+			"name":"Sixth Item"
+		}
+	]
+};
 
-var q = new jqassign(assignments, unassignedItems, "#groups", "#items");
+var q = new jqassign(assignments, "#groups", allItems);
 ...
 /* Later on, retrieve assignments as follows; the return value's signature is
  * the same as the assignment input. */

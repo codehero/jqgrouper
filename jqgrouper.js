@@ -1,14 +1,17 @@
-function jqgrouper(catElemName, targetElemName, assignments, unassigned){
+function jqgrouper(catElemName, assignments, all){
 	var part = this;
 	part.catElemName = catElemName;
-	part.targetElemName = targetElemName;
+	part.all = all;
+	part.rmap = {};
+	initAssign = {};
 
 	this.curCat = null;
 	this.toggle = function(){
 		var t = $(this);
 		/* If target assigned to category, then move to unassigned. */
 		if(t.parent().hasClass(part.catClass)){
-			$(this).remove().appendTo($(part.targetElemName));
+			var m = part.rmap[$(this).children().first().attr("id")];
+			$(this).remove().appendTo($(m));
 			$(this).dblclick(part.toggle);
 			return;
 		}
@@ -43,22 +46,29 @@ function jqgrouper(catElemName, targetElemName, assignments, unassigned){
 
 		var assigned = $("<ul id=\""+ i +"\" class=\""+ part.catClass +"\"></ul>");
 		for(var k = 0; k < cat.assigned.length; ++k){
-			var ct = cat.assigned[k];
-			var p = $("<li><span id=\""+ ct.id +"\" class=\"assign_jqgrouper\">"
-					+ ct.name + "</span></li>");
+			var item = cat.assigned[k];
+			var p = $("<li><span id=\""+ item.id +"\" class=\"assign_jqgrouper\">"
+					+ item.name + "</span></li>");
 			p.dblclick(part.toggle);
 			assigned.append(p);
+			initAssign[item.id] = cat;
 		}
 		t.append(elem).append(assigned);
 	}
 
-	t = $(targetElemName);
-	for(var p = 0; p < unassigned.length; ++p){
-		var x = unassigned[p];
-		var elem =
-			$("<li><span id=\""+ x.id +"\" class=\"assign_jqgrouper\">"+ x.name +"</span></li>");
-		elem.dblclick(part.toggle);
-		t.append(elem);
+	for(var m in part.all){
+		var all = part.all[m];
+		t = $(m);
+		for(var p = 0; p < all.length; ++p){
+			var x = all[p];
+			part.rmap[x.id] = m;
+			if(x.id in initAssign)
+				continue;
+			var elem =
+				$("<li><span id=\""+ x.id +"\" class=\"assign_jqgrouper\">"+ x.name +"</span></li>");
+			elem.dblclick(part.toggle);
+			t.append(elem);
+		}
 	}
 
 	return this;
